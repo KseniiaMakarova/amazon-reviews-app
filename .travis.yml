@@ -1,6 +1,8 @@
 language: java
 jdk:
   - openjdk11
+before_install:
+  - chmod +x mvnw
 script:
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.login=b4b215d08e080a452e14f74f7a145ce7910052b0
 cache:
