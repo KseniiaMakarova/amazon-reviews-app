@@ -1,0 +1,17 @@
+language: java
+jdk:
+  - openjdk11
+script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.login=b4b215d08e080a452e14f74f7a145ce7910052b0
+cache:
+  directories:
+    - $HOME/.m2
+addons:
+  sonarcloud:
+    organization: "kseniia-makarova"
+    token:
+      secure: "fjvBImcEvB/rXBJXZPxZj6JyqGeNltmEwn8HW7zahR+s+cyxwZGIC4OEiaXalsVe0XREQQ1zPb0QU6hEgRXAO7GG0sbfXYTbOd5tKrppC9kffV7vAmixTioa2fPMOZ+Z0xgWdcU7T6dHQ
+      gsiM8REJQJ8XSyGLaOZAi3c6VDkU7SqCqz4i73VxKhs55I2C/p4va8bSAnPIjc45C/rB9vm16pZCYk6MXJq3CqRl5LEhsamUzrQC4iHG5dBMg8ZHKN27IcbW+tFcjJhcxVM+8VOeJhZKUtngQO+rDMiz
+      0LGtaphmW/XUoRZuaiNjEvfd61XvyJ//AXTAWYDykD2i/tjWv9RUxkm3D+kVTtW0yiemJ0K+kI/mgrzS+tkbXaFVpVKXm8Srk8OHdlq+fyYcteSBZgDjVVGXkcXtzj7outL/0hZzf21feFYYVTwKul1C
+      QGac25aX5pJR0Di/Tf5oZEow8MwrG4Ig4v8YYKs80CzH6zFM05nDA1LvYThWBaeRthIeOf3lnn6j+vKR1+ujwR2G7xjZXNsLQ5K5kNXkTaXUj3vAlUa9EeSpe6jV7PT4jprLSnc4VgHzmY89zKcnkZOn
+      pLtocfXwpE2zR7eXmkBIC+URneZA8N8Bm4WeZDZWqTY2B8vucMO3YlwFwpvnlu/EAuQthoinBOBSACaLcCifC0="
