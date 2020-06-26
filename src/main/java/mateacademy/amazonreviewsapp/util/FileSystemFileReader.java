@@ -14,7 +14,7 @@ public class FileSystemFileReader implements FileReader {
     @Override
     public List<String> readLines(Path path) {
         try (Stream<String> lines = Files.lines(path)) {
-            return lines.skip(1).collect(Collectors.toList());
+            return lines.collect(Collectors.toList());
         }
     }
 }
