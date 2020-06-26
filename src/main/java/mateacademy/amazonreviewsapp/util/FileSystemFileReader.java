@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,8 @@ public class FileSystemFileReader implements FileReader {
     @SneakyThrows
     @Override
     public List<String> readLines(Path path) {
-        return Files.lines(path).skip(1).collect(Collectors.toList());
+        try (Stream<String> lines = Files.lines(path)) {
+            return lines.skip(1).collect(Collectors.toList());
+        }
     }
 }
