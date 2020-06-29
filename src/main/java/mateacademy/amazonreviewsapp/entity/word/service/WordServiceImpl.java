@@ -29,4 +29,5 @@ public class WordServiceImpl implements WordService {
                         .and(Sort.by("value")));
         return wordRepository.findAll(pageable).toList();
     }
+
 }
