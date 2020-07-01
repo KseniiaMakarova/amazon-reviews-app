@@ -1,7 +1,6 @@
 package mateacademy.amazonreviewsapp.security;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import mateacademy.amazonreviewsapp.entity.user.User;
@@ -40,16 +39,17 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody @Valid UserLoginDto userLoginDto) {
+    public ResponseEntity<BaseResponse<String>> login(
+            @RequestBody @Valid UserLoginDto userLoginDto) {
         User user = authenticationService.login(
                 userLoginDto.getProfileName(), userLoginDto.getPassword());
         String token = jwtTokenProvider.createToken(user.getProfileName(),
                 user.getRoles().stream()
                         .map(role -> role.getName().name())
                         .collect(Collectors.toList()));
-        Map<String, Object> body = new HashMap<>();
-        body.put("profile_name", user.getProfileName());
-        body.put("token", token);
+        BaseResponse<String> body = new BaseResponse<>();
+        body.setTimestamp(LocalDateTime.now());
+        body.setValue(token);
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
 }

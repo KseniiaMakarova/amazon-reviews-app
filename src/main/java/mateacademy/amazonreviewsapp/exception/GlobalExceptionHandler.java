@@ -1,10 +1,9 @@
 package mateacademy.amazonreviewsapp.exception;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
+import mateacademy.amazonreviewsapp.security.BaseResponse;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,29 +20,28 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
             HttpHeaders headers, HttpStatus status, WebRequest request) {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", status.value());
+        BaseResponse<List<String>> body = new BaseResponse<>();
+        body.setTimestamp(LocalDateTime.now());
         List<String> errors = ex.getBindingResult().getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.toList());
-        body.put("errors", errors);
-        return new ResponseEntity<>(body, headers, status);
+        body.setValue(errors);
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(InvalidCredentialsAuthenticationException.class)
-    public ResponseEntity<Object> handleFailedAuthentication(Exception ex) {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("message", ex.getMessage());
+    public ResponseEntity<BaseResponse<String>> handleFailedAuthentication(Exception ex) {
+        BaseResponse<String> body = new BaseResponse<>();
+        body.setTimestamp(LocalDateTime.now());
+        body.setValue(ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Object> handleDeniedAccess(Exception ex) {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("message", ex.getMessage());
+        BaseResponse<String> body = new BaseResponse<>();
+        body.setTimestamp(LocalDateTime.now());
+        body.setValue(ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
     }
 }
